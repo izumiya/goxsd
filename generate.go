@@ -202,7 +202,7 @@ func primitiveType(e *xmlTree) bool {
 }
 
 func lint(s string) string {
-	return dashToCamel(squish(initialisms.Replace(s)))
+	return snakeToCamel(dashToCamel(squish(initialisms.Replace(s))))
 }
 
 func lintTitle(s string) string {
@@ -215,6 +215,17 @@ func squish(s string) string {
 
 func dashToCamel(name string) string {
 	s := strings.Split(name, "-")
+	if len(s) > 1 {
+		for i := 1; i < len(s); i++ {
+			s[i] = strings.Title(s[i])
+		}
+		return strings.Join(s, "")
+	}
+	return name
+}
+
+func snakeToCamel(name string) string {
+	s := strings.Split(name, "_")
 	if len(s) > 1 {
 		for i := 1; i < len(s); i++ {
 			s[i] = strings.Title(s[i])
